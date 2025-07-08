@@ -1,0 +1,14 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Artifacts
+artifacts/
+
+# JDBC drivers
+jdbc_drivers/
+
+# Python cache
+__pycache__/
+*.pyc 
