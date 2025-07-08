@@ -2,3 +2,4 @@ pandas
 psycopg2
 pyspark
 os
+python-dotenv

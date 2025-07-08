@@ -1,5 +1,9 @@
 import pandas as pd
 import psycopg2
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Load the CSV
 df = pd.read_csv("data/countries_metric.csv")
@@ -48,9 +52,9 @@ df["nominal_gdp_usd"] = df["nominal_gdp_usd"].apply(parse_currency)
 # Connect to the source DB
 conn = psycopg2.connect(
     dbname="source",
-    user="postgres",
-    password="password",
-    host="localhost",
+    user=os.getenv("SOURCE_DB_USER"),
+    password=os.getenv("SOURCE_DB_PASSWORD"),
+    host=os.getenv("SOURCE_DB_HOST"),
     port="5433"
 )
 

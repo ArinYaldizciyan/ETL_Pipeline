@@ -1,6 +1,9 @@
 from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 os.environ["HADOOP_HOME"] = "C:/hadoop/hadoop-3.3.4"
 
@@ -12,11 +15,11 @@ spark = SparkSession.builder \
 # Read from source
 source_df = spark.read \
     .format("jdbc") \
-    .option("url", "jdbc:postgresql://localhost:5433/source") \
-    .option("driver", "org.postgresql.Driver") \
-    .option("user", "postgres") \
-    .option("password", "password") \
-    .option("dbtable", "source_table") \
+    .option("url", os.getenv("SOURCE_DB_URL")) \
+    .option("driver", os.getenv("SOURCE_DB_DRIVER")) \
+    .option("user", os.getenv("SOURCE_DB_USER")) \
+    .option("password", os.getenv("SOURCE_DB_PASSWORD")) \
+    .option("dbtable", os.getenv("SOURCE_DB_TABLE")) \
     .load()
 
 cleaned_df = source_df.na.drop(subset=["nominal_gdp_per_capita_usd", "hdi"])
@@ -45,10 +48,10 @@ print(f"Number of rows: {output_df.count()}")
 
 output_df.write \
     .format("jdbc") \
-    .option("url", "jdbc:postgresql://localhost:5434/target") \
-    .option("driver", "org.postgresql.Driver") \
-    .option("dbtable", "target_table") \
-    .option("user", "postgres") \
-    .option("password", "password") \
+    .option("url", os.getenv("TARGET_DB_URL")) \
+    .option("driver", os.getenv("TARGET_DB_DRIVER")) \
+    .option("dbtable", os.getenv("TARGET_DB_TABLE")) \
+    .option("user", os.getenv("TARGET_DB_USER")) \
+    .option("password", os.getenv("TARGET_DB_PASSWORD")) \
     .mode("overwrite") \
     .save()
