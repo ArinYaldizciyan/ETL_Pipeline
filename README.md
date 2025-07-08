@@ -14,7 +14,7 @@ This project implements a data pipeline that:
 
 The pipeline filters countries that meet the following criteria:
 
-- **GDP per capita** greater than the mean GDP per capita across all countries
+- **GDP per capita** greater than 1 standard deviations above the mean GDP per capita
 - **HDI (Human Development Index)** greater than 1.2 standard deviations above the mean HDI
 
 This identifies countries that are both economically prosperous and have high human development indicators.
